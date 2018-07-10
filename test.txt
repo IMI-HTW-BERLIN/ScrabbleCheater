@@ -1,0 +1,1 @@
+write a dictionary class that upon instantiation reads in a file of words and creates a hash table for storing them use chaining of collisions in your hash table how many entries does your table have ow many collisions were there what is the longest chain in your hash table it might be useful to implement some statistical methods in order to see if your hash table is
