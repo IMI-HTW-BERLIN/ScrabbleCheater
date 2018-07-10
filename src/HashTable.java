@@ -3,39 +3,33 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class HashTable {
-    private static final int MOD = 3947;
-//    private static final int MOD = 24029;
+class HashTable {
+    private static int MOD = 3947;
     private ArrayList<String>[] table;
     private int numberOfWords = 0;
-    private static File file = new File("C:\\Users\\David\\eclipse-workspace\\INFO2\\2018-07-04-ScrabbleCheater\\twl.txt");
 
-    public static void main(String[] args) throws FileNotFoundException {
-        HashTable ht = new HashTable(file);
-        Scanner scanner = new Scanner(System.in);
-//        ht.print();
-        new Thread(() -> {
-            String next;
-            while(!(next = scanner.nextLine()).equals("stop"))System.out.println(ht.getPermutations(next));}).start();
-
-        System.out.println("Longest Chain: " + ht.longestChain());
-        System.out.println("Collisions: " + ht.getCollisions());
-        System.out.println("Number of Words: " + ht.numberOfWords);
-    }
-
-    private HashTable(File file) throws FileNotFoundException {
+    HashTable(){
         table = new ArrayList[MOD];
         for (int i = 0; i < table.length; i++) {
             table[i] = new ArrayList<>();
         }
-        fill(file);
     }
 
-    private void fill(File file) throws FileNotFoundException {
+    void fill(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
         while (scanner.hasNext()) {
             String nextWord = scanner.next();
-            if (nextWord.matches("[a-z]{7}")) {
+                int position = position(hashValue(nextWord));
+                table[position].add(nextWord);
+                numberOfWords++;
+        }
+    }
+
+    void fill(File file, int lowerBound, int upperBound) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNext()) {
+            String nextWord = scanner.next();
+            if (nextWord.matches("[a-z]{" + lowerBound + "," + upperBound + "}")) {
                 int position = position(hashValue(nextWord));
                 table[position].add(nextWord);
                 numberOfWords++;
@@ -47,9 +41,9 @@ public class HashTable {
         char[] chars = word.toCharArray();
         //Arrays.sort(chars);
         long hashValue = 0;
-        for (int i = 0; i < chars.length; i++) {
+        for (char aChar : chars) {
             //hashValue += (long) ((long) (chars[i]) * Math.pow(26, chars.length - i - 1)); //old hash function
-            hashValue += Math.pow(2,chars[i]-97);       //this way each char has a unique number
+            hashValue += Math.pow(2, aChar - 97);       //this way each char has a unique number
         }
         return hashValue;
     }
@@ -58,7 +52,7 @@ public class HashTable {
         return (int) (hashValue % MOD);
     }
 
-    public void print() {
+    void print() {
 
         for (int i = 0; i < table.length; i++) {
             StringBuilder sb = new StringBuilder();
@@ -67,7 +61,7 @@ public class HashTable {
         }
     }
 
-    private int longestChain() {
+    int longestChain() {
         int size = 0;
         for (ArrayList<String> aTable : table) {
             if (size < aTable.size()) size = aTable.size();
@@ -75,7 +69,7 @@ public class HashTable {
         return size;
     }
 
-    private int getCollisions() {
+    int getCollisions() {
         int collisions = 0;
         for (ArrayList<String> aTable : table) {
             collisions += (aTable.size() <= 1) ? 0 : aTable.size() - 1;
@@ -83,7 +77,19 @@ public class HashTable {
         return collisions;
     }
 
-    private ArrayList<String> getPermutations(String word) {
+    ArrayList<String> getPermutations(String word) {
         return table[position(hashValue(word))];
+    }
+
+    static int getMOD() {
+        return MOD;
+    }
+
+    static void setMOD(int MOD) {
+        HashTable.MOD = MOD;
+    }
+
+    int getNumberOfWords() {
+        return numberOfWords;
     }
 }
