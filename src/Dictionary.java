@@ -7,7 +7,7 @@ public class Dictionary {
 
     public static void main(String[] args) throws FileNotFoundException {
         HashTable ht = new HashTable();
-        ht.fill(file,7,7);
+        ht.fill(file,1,7);
 
         Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
@@ -17,7 +17,6 @@ public class Dictionary {
                 else System.out.println("Permutations: " + ht.getPermutations(next));
         }).start();
 
-        ht.print();
 
         System.out.println("Longest Chain: " + ht.longestChain());
         System.out.println("Collisions: " + ht.getCollisions());

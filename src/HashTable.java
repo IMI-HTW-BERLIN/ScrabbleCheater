@@ -1,12 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 class HashTable {
-    private static int MOD = 3947;
+    private int MOD = 3947;
     private ArrayList<String>[] table;
     private int numberOfWords = 0;
 
@@ -57,9 +56,7 @@ class HashTable {
     void print() {
 
         for (int i = 0; i < table.length; i++) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(i).append(": ").append(table[i]);
-            System.out.println(sb.toString());
+            System.out.println(String.valueOf(i) + ": " + table[i]);
         }
     }
 
@@ -91,15 +88,22 @@ class HashTable {
         return permutations;
     }
 
-    static int getMOD() {
+    int getMOD() {
         return MOD;
     }
 
-    static void setMOD(int MOD) {
-        HashTable.MOD = MOD;
+    void setMOD(int MOD) {
+        this.MOD = MOD;
     }
 
     int getNumberOfWords() {
         return numberOfWords;
+    }
+
+    void clear() {
+        table = new ArrayList[MOD];
+        for (int i = 0; i < table.length; i++) {
+            table[i] = new ArrayList<>();
+        }
     }
 }
