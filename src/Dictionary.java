@@ -12,7 +12,10 @@ public class Dictionary {
         Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
             String next;
-            while(!(next = scanner.nextLine()).equals("stop"))System.out.println(ht.getPermutations(next));}).start();
+            while(!(next = scanner.nextLine()).equals("stop"))
+                if(ht.getPermutations(next).size() < 1) System.out.println("No permutations.");
+                else System.out.println("Permutations: " + ht.getPermutations(next));
+        }).start();
 
         ht.print();
 

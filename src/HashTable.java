@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 class HashTable {
@@ -78,7 +80,15 @@ class HashTable {
     }
 
     ArrayList<String> getPermutations(String word) {
-        return table[position(hashValue(word))];
+        char[] charsOfWord = word.toCharArray();
+        ArrayList<String> permutations= new ArrayList<>();
+        Arrays.sort(charsOfWord);
+        for (String string : table[position(hashValue(word))]) {
+            char[] charsOfString = string.toCharArray();
+            Arrays.sort(charsOfString);
+            if(Arrays.equals(charsOfString, charsOfWord)) permutations.add(string);
+        }
+        return permutations;
     }
 
     static int getMOD() {
