@@ -7,17 +7,18 @@ public class Dictionary {
 
     public static void main(String[] args) throws FileNotFoundException {
         HashTable ht = new HashTable();
-        ht.fill(file,1,7);
+        ht.fill(file,7,7);
 
         Scanner scanner = new Scanner(System.in);
         new Thread(() -> {
             String next;
             while(!(next = scanner.nextLine()).equals("stop"))
-                if(ht.getPermutations(next).size() < 1) System.out.println("No permutations.");
+                if(ht.getPermutations(next).size() < 1) System.out.println("Word not found.");
+                else if(ht.getPermutations(next).size() == 1) System.out.println("No Permutations for " + next);
                 else System.out.println("Permutations: " + ht.getPermutations(next));
         }).start();
 
-
+        //ht.print();
         System.out.println("Longest Chain: " + ht.longestChain());
         System.out.println("Collisions: " + ht.getCollisions());
         System.out.println("Number of Words: " + ht.getNumberOfWords());

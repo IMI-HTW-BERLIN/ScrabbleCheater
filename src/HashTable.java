@@ -100,10 +100,21 @@ class HashTable {
         return numberOfWords;
     }
 
-    void clear() {
-        table = new ArrayList[MOD];
-        for (int i = 0; i < table.length; i++) {
-            table[i] = new ArrayList<>();
+    void resize(int MOD) {
+        setMOD(MOD);
+        ArrayList<String>[] temp = new ArrayList[MOD];
+        if(temp.length > table.length) {
+            for (int i = 0; i < temp.length; i++) {
+                temp[i] = new ArrayList<>();
+            }
+            System.arraycopy(table, 0, temp, 0, table.length); //Really handy!
+
+            table = temp;
+        }else {
+            table = new ArrayList[MOD];
+            for (int i = 0; i < temp.length; i++) {
+                table[i] = new ArrayList<>();
+            }
         }
     }
 }
