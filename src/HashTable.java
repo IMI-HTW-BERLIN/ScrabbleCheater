@@ -43,7 +43,6 @@ class HashTable {
         //Arrays.sort(chars);
         long hashValue = 0;
         for (char aChar : chars) {
-            //hashValue += (long) ((long) (chars[i]) * Math.pow(26, chars.length - i - 1)); //old hash function
             hashValue += Math.pow(2, aChar - 97);       //this way each char has a unique number
         }
         return hashValue;
